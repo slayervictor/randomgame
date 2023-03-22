@@ -1,0 +1,26 @@
+<!-- HTML code for the widget -->
+<div id="game-widget"></div>
+
+<!-- JavaScript code to load the Itch.io API and display a random game from the collection -->
+<script src="https://itch.io/api/1/js"></script>
+<script>
+  // Replace YOUR_COLLECTION_ID with the ID of your Itch.io collection
+  var collectionId = '3201962';
+
+  // Get the games in the collection using the Itch.io API
+  itchio.api(`collections/${collectionId}/games`, { page: 1, page_size: 100 }).then(function(response) {
+    // Pick a random game from the collection
+    var randomIndex = Math.floor(Math.random() * response.games.length);
+    var randomGame = response.games[randomIndex];
+
+    // Display the game's thumbnail, title, and link in the widget
+    var widgetElement = document.getElementById('game-widget');
+    widgetElement.innerHTML = `
+      <a href="${randomGame.url}">
+        <img src="${randomGame.cover_url}" alt="${randomGame.title}" width="150">
+        <br>
+        ${randomGame.title}
+      </a>
+    `;
+  });
+</script>
